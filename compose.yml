@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  telegram-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: telegram-api
+    ports:
+      - "8081:8081"
+    environment:
+      - TELEGRAM_API_ID=${TELEGRAM_API_ID}
+      - TELEGRAM_API_HASH=${TELEGRAM_API_HASH}
