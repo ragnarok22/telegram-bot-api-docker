@@ -2,7 +2,6 @@ name: ci
 
 on:
   push:
-    branches: main
     tags: [ "v.*" ]
   pull_request:
     branches: main
@@ -16,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Login to Docker Hub
         if: github.event_name != 'pull_request'
