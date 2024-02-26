@@ -1,6 +1,9 @@
 # telegram-bot-api-docker
 
 Dockerize [Telegram Bot API](https://github.com/tdlib/telegram-bot-api) server.
+![Docker Image Version](https://img.shields.io/docker/v/ragnarok22/telegram-bot-api-docker)
+![Docker Pulls](https://img.shields.io/docker/pulls/ragnarok22/telegram-bot-api-docker)
+![Docker Image Size](https://img.shields.io/docker/image-size/ragnarok22/telegram-bot-api-docker)
 
 The [Telegram Bot API](https://github.com/tdlib/telegram-bot-api) provides an HTTP API for creating [Telegram Bots](https://core.telegram.org/bots).
 
