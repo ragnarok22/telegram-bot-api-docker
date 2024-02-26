@@ -10,7 +10,6 @@ The [Telegram Bot API](https://github.com/tdlib/telegram-bot-api) provides an HT
 
 ## Table of Contents
 - [Installation](#installation)
-- [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Documentation](#documentation)
 - [Moving a bot to a local server](#switching)
@@ -19,7 +18,34 @@ The [Telegram Bot API](https://github.com/tdlib/telegram-bot-api) provides an HT
 
 ## Installation
 
-## Dependencies
+- Install [Docker](https://docs.docker.com/get-docker/)
+- Pull the image from Docker Hub
+  ```bash
+  docker pull ragnarok22/telegram-bot-api-docker
+  ```
+- Create a .env file with the following content
+  ```bash
+  TELEGRAM_API_ID=12345
+  TELEGRAM_API_HASH=1234567890abcdef1234567890abcdef
+  ```
+  You can get the `TELEGRAM_API_ID` and `TELEGRAM_API_HASH` from [Telegram's website](https://my.telegram.org)
+- Run the container
+  ```bash
+  docker run -d -p 8081:8081 ragnarok22/telegram-bot-api-docker
+  ```
+- The server will be available at `http://localhost:8081`
+
+Also, you can use Docker Compose to run the container
+```yaml
+version: '3'
+services:
+  telegram-bot-api:
+    image: ragnarok22/telegram-bot-api-docker
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
+```
 
 ## Usage
 
