@@ -1,4 +1,5 @@
 # Telegram Bot API Dockerized
+![Dockerized Telegram Bot API](https://github.com/ragnarok22/telegram-bot-api-docker/assets/8838803/546002cc-ab83-494e-8c57-c1e5d18246c9)
 
 ![Docker Image Version](https://img.shields.io/docker/v/ragnarok22/telegram-bot-api-docker)
 ![Docker Pulls](https://img.shields.io/docker/pulls/ragnarok22/telegram-bot-api-docker)
