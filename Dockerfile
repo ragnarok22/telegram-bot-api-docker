@@ -30,4 +30,10 @@ RUN apk update && \
 
 WORKDIR /telegram-bot-api/bin
 
-CMD ["./telegram-bot-api"]
+COPY entrypoint.sh /telegram-bot-api/bin/entrypoint.sh
+RUN chmod +x /telegram-bot-api/bin/entrypoint.sh
+
+VOLUME /data/logs
+VOLUME /tmp
+
+ENTRYPOINT ["./entrypoint.sh"]

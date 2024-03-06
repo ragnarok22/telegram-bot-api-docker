@@ -47,6 +47,17 @@ services:
       - .env
 ```
 
+## Environment Variables
+
+- `TELEGRAM_API_ID`: The API ID obtained from [Telegram's website](https://my.telegram.org)
+- `TELEGRAM_API_HASH`: The API hash obtained from [Telegram's website](https://my.telegram.org)
+- `TELEGRAM_HTTP_PORT`: The port the server will listen to. Default is `8081`
+- `TELEGRAM_HTTP_STAT_PORT`: The port the server will listen to for statistics. Default is `8082`
+- `TELEGRAM_DIR`: The directory where the server will store the data. Default is `/data`
+- `TELEGRAM_TEMP_DIR`: The directory where the server will store temporary files. Default is `/tmp`
+- `TELEGRAM_LOG_FILE`: The file where the server will store the logs. Default is `/data/logs/telegram-bot-api.log`
+- `TELEGRAM_LOCAL`: If set to `true`, the server will run in local mode. Default is `false`
+
 ## Usage
 
 ## Documentation
