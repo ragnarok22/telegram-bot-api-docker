@@ -1,6 +1,13 @@
 # Stage 1: Build Stage
 FROM alpine:3.19.1 AS build-stage
 
+LABEL org.opencontainers.image.description="Telegram Bot API server provides an HTTP API for creating Telegram Bots."
+LABEL org.opencontainers.image.title="telebram-bot-api"
+LABEL org.opencontainers.image.url="https://github.com/ragnarok22/telegram-bot-api-docker"
+LABEL org.opencontainers.image.source="https://github.com/ragnarok22/telegram-bot-api-docker"
+LABEL org.opencontainers.image.version="7.1"
+LABEL org.opencontainers.image.authors="Reinier Hernández<sasuke.reinier@gmail.com>"
+
 RUN apk update && \
     apk upgrade && \
     apk add --update alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake && \
@@ -30,8 +37,8 @@ RUN apk update && \
 
 WORKDIR /telegram-bot-api/bin
 
-COPY entrypoint.sh /telegram-bot-api/bin/entrypoint.sh
-RUN chmod +x /telegram-bot-api/bin/entrypoint.sh
+# COPY entrypoint.sh /telegram-bot-api/bin/entrypoint.sh
+COPY --chmod=755 entrypoint.sh /telegram-bot-api/bin/entrypoint.sh
 
 VOLUME /data/logs
 VOLUME /tmp
