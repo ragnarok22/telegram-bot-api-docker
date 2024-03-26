@@ -43,7 +43,7 @@ else
 fi
 
 # allow the Bot API server to serve local requests
-if [ -n "$TELEGRAM_LOCAL" ]; then
+if [ "$TELEGRAM_LOCAL" -eq 1 ]; then
   ARGS="$ARGS --local"
 fi
 
