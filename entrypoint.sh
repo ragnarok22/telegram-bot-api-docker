@@ -9,7 +9,7 @@ ARGS=""
 
 # HTTP listening port (default is 8081)
 if [ -n "$TELEGRAM_HTTP_PORT" ]; then
-  ARGS=" --http-port $TELEGRAM_API_PORT"
+  ARGS=" --http-port $TELEGRAM_HTTP_PORT"
 else
   ARGS=" --http-port 8081"
 fi
