@@ -47,7 +47,7 @@ if [ "$TELEGRAM_LOCAL" -eq 1 ]; then
   ARGS="$ARGS --local"
 fi
 
-VERSION=$(./telegram-bot-api --version)
+VERSION=$(./telegram-bot-api --version 2>&1)
 
 echo "Starting telegram-bot-api ($VERSION) with args: $ARGS"
 
