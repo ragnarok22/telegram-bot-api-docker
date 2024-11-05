@@ -38,7 +38,6 @@ The [Telegram Bot API](https://github.com/tdlib/telegram-bot-api) provides an HT
 
 Also, you can use Docker Compose to run the container
 ```yaml
-version: '3'
 services:
   telegram-bot-api:
     image: ragnarok22/telegram-bot-api-docker
