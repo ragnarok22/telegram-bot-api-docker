@@ -56,7 +56,7 @@ services:
 - `TELEGRAM_DIR`: The directory where the server will store the data. Default is `/data`
 - `TELEGRAM_TEMP_DIR`: The directory where the server will store temporary files. Default is `/tmp`
 - `TELEGRAM_LOG_FILE`: The file where the server will store the logs. Default is `/data/logs/telegram-bot-api.log`
-- `TELEGRAM_LOCAL`: If set to `true`, the server will run in local mode. Default is `false`
+- `TELEGRAM_LOCAL`: Set to `1` or `true` (case-insensitive) to run the server in local mode. Default is `false`
 
 ## Usage
 After starting the container the API is available on the port configured via `TELEGRAM_HTTP_PORT`. You can verify your setup with:

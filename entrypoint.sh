@@ -43,7 +43,7 @@ else
 fi
 
 # allow the Bot API server to serve local requests
-if [ "$TELEGRAM_LOCAL" -eq 1 ]; then
+if [ "${TELEGRAM_LOCAL:-}" = "1" ] || [ "$(printf '%s' "${TELEGRAM_LOCAL:-}" | tr '[:upper:]' '[:lower:]')" = "true" ]; then
   ARGS="$ARGS --local"
 fi
 
