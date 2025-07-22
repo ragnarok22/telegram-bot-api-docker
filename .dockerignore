@@ -1,0 +1,14 @@
+# Ignore Git and GitHub files
+.git
+.github
+
+# Development and temporary files
+.DS_Store
+.env
+data
+tmp
+temp
+
+# Docker compose file not needed in image
+compose.yml
+
