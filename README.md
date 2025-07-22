@@ -79,6 +79,7 @@ docker compose up -d
 ```
 
 The compose configuration keeps bot data in the `./data` directory.
+Temporary files are stored in the `./temp` directory.
 
 ## Documentation
 
