@@ -59,6 +59,19 @@ services:
 - `TELEGRAM_LOCAL`: If set to `true`, the server will run in local mode. Default is `false`
 
 ## Usage
+After starting the container the API is available on the port configured via `TELEGRAM_HTTP_PORT`. You can verify your setup with:
+
+```bash
+curl http://localhost:8081/bot<token>/getMe
+```
+
+You may also launch the service using Docker Compose:
+
+```bash
+docker compose up -d
+```
+
+The compose configuration keeps bot data in the `./data` directory.
 
 ## Documentation
 
