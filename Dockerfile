@@ -2,7 +2,7 @@
 FROM alpine:3.22.0 AS build-stage
 
 LABEL org.opencontainers.image.description="Telegram Bot API server provides an HTTP API for creating Telegram Bots."
-LABEL org.opencontainers.image.title="telebram-bot-api"
+LABEL org.opencontainers.image.title="telegram-bot-api"
 LABEL org.opencontainers.image.url="https://github.com/ragnarok22/telegram-bot-api-docker"
 LABEL org.opencontainers.image.source="https://github.com/ragnarok22/telegram-bot-api-docker"
 LABEL org.opencontainers.image.version="9.1"
