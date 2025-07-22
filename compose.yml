@@ -12,4 +12,4 @@ services:
       - TELEGRAM_LOCAL=true
     volumes:
       - ./data:/data
-      - ./temp:/temp
+      - ./temp:/tmp
