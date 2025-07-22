@@ -59,6 +59,13 @@ services:
 - `TELEGRAM_LOCAL`: Set to `1` or `true` (case-insensitive) to run the server in local mode. Default is `false`
 
 ## Usage
+Run the container by providing the required environment variables. If you created
+a `.env` file in the installation step, it can be passed directly to Docker:
+
+```bash
+docker run -d --env-file .env -p 8081:8081 ragnarok22/telegram-bot-api-docker
+```
+
 After starting the container the API is available on the port configured via `TELEGRAM_HTTP_PORT`. You can verify your setup with:
 
 ```bash
