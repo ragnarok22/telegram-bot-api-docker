@@ -33,7 +33,11 @@ COPY --from=build-stage /telegram-bot-api/bin/ /telegram-bot-api/bin/
 RUN apk update && \
     apk upgrade && \
     apk add --update libstdc++ libgcc && \
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/* && \
+    addgroup -S botapi && adduser -S -G botapi botapi && \
+    chown -R botapi:botapi /telegram-bot-api/bin && \
+    mkdir -p /data /tmp && \
+    chown -R botapi:botapi /data /tmp
 
 WORKDIR /telegram-bot-api/bin
 
@@ -42,5 +46,7 @@ COPY --chmod=755 entrypoint.sh /telegram-bot-api/bin/entrypoint.sh
 
 VOLUME /data/logs
 VOLUME /tmp
+
+USER botapi
 
 ENTRYPOINT ["./entrypoint.sh"]
