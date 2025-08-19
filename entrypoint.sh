@@ -5,6 +5,16 @@ if [ -n "${1}" ]; then
   exec "$@"
 fi
 
+if [ -z "$TELEGRAM_API_ID" ]; then
+  echo "Error: TELEGRAM_API_ID is not set" >&2
+  exit 1
+fi
+
+if [ -z "$TELEGRAM_API_HASH" ]; then
+  echo "Error: TELEGRAM_API_HASH is not set" >&2
+  exit 1
+fi
+
 ARGS=""
 
 # HTTP listening port (default is 8081)
