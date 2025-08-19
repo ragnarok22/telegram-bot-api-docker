@@ -4,8 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: telegram-api
+    restart: unless-stopped
     ports:
       - "8081:8081"
+      - "8082:8082"
     environment:
       - TELEGRAM_API_ID=${TELEGRAM_API_ID}
       - TELEGRAM_API_HASH=${TELEGRAM_API_HASH}
