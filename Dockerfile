@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.description="Telegram Bot API server provides an 
 LABEL org.opencontainers.image.title="telegram-bot-api"
 LABEL org.opencontainers.image.url="https://github.com/ragnarok22/telegram-bot-api-docker"
 LABEL org.opencontainers.image.source="https://github.com/ragnarok22/telegram-bot-api-docker"
-LABEL org.opencontainers.image.version="9.1"
+LABEL org.opencontainers.image.version="9.2"
 LABEL org.opencontainers.image.authors="Reinier Hernández<sasuke.reinier@gmail.com>"
 
 RUN apk update && \
