@@ -6,6 +6,7 @@
 ![Docker Image Size](https://img.shields.io/docker/image-size/ragnarok22/telegram-bot-api-docker)
 [![test](https://github.com/ragnarok22/telegram-bot-api-docker/actions/workflows/test.yml/badge.svg)](https://github.com/ragnarok22/telegram-bot-api-docker/actions/workflows/test.yml)
 [![docker-smoke](https://github.com/ragnarok22/telegram-bot-api-docker/actions/workflows/docker-smoke.yml/badge.svg)](https://github.com/ragnarok22/telegram-bot-api-docker/actions/workflows/docker-smoke.yml)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ragnarok22/telegram-bot-api-docker)
 
 Dockerized [Telegram Bot API](https://github.com/tdlib/telegram-bot-api) server.
 
