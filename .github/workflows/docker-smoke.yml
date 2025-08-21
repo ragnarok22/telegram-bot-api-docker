@@ -1,0 +1,40 @@
+name: docker-smoke
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*.*"
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (native arch)
+        run: |
+          docker build -t tbapi:test .
+
+      - name: EntryPoint env validation should fail without env
+        run: |
+          set +e
+          out=$(docker run --rm tbapi:test 2>&1)
+          status=$?
+          echo "$out"
+          set -e
+          if [ "$status" -eq 0 ]; then
+            echo "Expected non-zero exit when env vars are missing" >&2
+            exit 1
+          fi
+          echo "$out" | grep -q "Error: TELEGRAM_API_ID is not set"
+
+      - name: Binary exists and prints version
+        run: |
+          docker run --rm --entrypoint ./telegram-bot-api tbapi:test --version | tee version.txt
+          grep -Eiq "telegram bot api" version.txt
+
