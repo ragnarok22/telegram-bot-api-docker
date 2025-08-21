@@ -32,7 +32,14 @@ The [Telegram Bot API](https://github.com/tdlib/telegram-bot-api) provides an HT
   You can get the `TELEGRAM_API_ID` and `TELEGRAM_API_HASH` from [Telegram's website](https://my.telegram.org)
 - Run the container
   ```bash
-  docker run -d -p 8081:8081 ragnarok22/telegram-bot-api-docker
+  docker run -d --env-file .env -p 8081:8081 ragnarok22/telegram-bot-api-docker
+  ```
+- (Optional) Mount volumes to persist data and logs between runs
+  ```bash
+  docker run -d --env-file .env -p 8081:8081 \
+    -v $(pwd)/data:/data \
+    -v $(pwd)/logs:/data/logs \
+    ragnarok22/telegram-bot-api-docker
   ```
 - The server will be available at `http://localhost:8081`
 
