@@ -8,10 +8,7 @@ LABEL org.opencontainers.image.source="https://github.com/ragnarok22/telegram-bo
 LABEL org.opencontainers.image.version="9.2"
 LABEL org.opencontainers.image.authors="Reinier Hernández<sasuke.reinier@gmail.com>"
 
-RUN apk update && \
-    apk upgrade && \
-    apk add --update alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake && \
-    rm -rf /var/cache/apk/*
+RUN apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
 
 RUN git clone --recursive https://github.com/tdlib/telegram-bot-api.git /telegram-bot-api
 
@@ -30,9 +27,7 @@ FROM alpine:3.22.1
 # Copy only the necessary files from the build stage
 COPY --from=build-stage /telegram-bot-api/bin/ /telegram-bot-api/bin/
 
-RUN apk update && \
-    apk upgrade && \
-    apk add --update libstdc++ libgcc && \
+RUN apk add --no-cache libstdc++ libgcc && \
     rm -rf /var/cache/apk/* && \
     addgroup -S botapi && adduser -S -G botapi botapi && \
     chown -R botapi:botapi /telegram-bot-api/bin && \
