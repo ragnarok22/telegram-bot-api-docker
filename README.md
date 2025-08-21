@@ -20,7 +20,7 @@ The [Telegram Bot API](https://github.com/tdlib/telegram-bot-api) provides an HT
 ## Installation
 
 - Install [Docker](https://docs.docker.com/get-docker/)
-- Pull the image from Docker Hub
+- Pull the image from Docker Hub (multi-arch: amd64/arm64)
   ```bash
   docker pull ragnarok22/telegram-bot-api-docker
   ```
@@ -53,6 +53,17 @@ services:
     env_file:
       - .env
 ```
+
+### Apple Silicon (M1/M2) and ARM64
+
+The published image is built for both `linux/amd64` and `linux/arm64`. Docker will automatically pull the correct variant for your host.
+
+- If you still see a platform warning, you can force the platform explicitly on Apple Silicon:
+  ```bash
+  docker run -d --platform linux/arm64/v8 --env-file .env -p 8081:8081 ragnarok22/telegram-bot-api-docker
+  ```
+
+- When building locally (e.g., with Docker Compose), the provided `compose.yml` builds natively for your host architecture, so no extra flags are required on macOS or Linux.
 
 ## Environment Variables
 
