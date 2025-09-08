@@ -31,7 +31,7 @@ RUN apk add --no-cache libstdc++ libgcc && \
     rm -rf /var/cache/apk/* && \
     addgroup -S botapi && adduser -S -G botapi botapi && \
     chown -R botapi:botapi /telegram-bot-api/bin && \
-    mkdir -p /data /tmp && \
+    mkdir -p /data/logs /tmp && \
     chown -R botapi:botapi /data /tmp
 
 WORKDIR /telegram-bot-api/bin
