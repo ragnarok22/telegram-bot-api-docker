@@ -73,6 +73,15 @@ docker build -t telegram-bot-api .
 docker run -d --platform linux/arm64 --env-file .env -p 8081:8081 ragnarok22/telegram-bot-api-docker
 ```
 
+### Building from Source
+
+To build the image locally:
+```bash
+docker build -t telegram-bot-api .
+```
+
+The Dockerfile automatically creates the necessary log directories and handles platform-specific builds.
+
 ## Environment Variables
 
 - `TELEGRAM_API_ID`: The API ID obtained from [Telegram's website](https://my.telegram.org)
