@@ -57,16 +57,21 @@ services:
       - .env
 ```
 
-### Apple Silicon (M1/M2) and ARM64
+### Apple Silicon (M1/M2/M3) and ARM64
 
-The published image is built for both `linux/amd64` and `linux/arm64`. Docker will automatically pull the correct variant for your host.
+The image supports multi-platform builds for both `linux/amd64` and `linux/arm64`. 
 
-- If you still see a platform warning, you can force the platform explicitly on Apple Silicon:
-  ```bash
-  docker run -d --platform linux/arm64/v8 --env-file .env -p 8081:8081 ragnarok22/telegram-bot-api-docker
-  ```
+**For pre-built images:** Docker will automatically pull the correct variant for your host architecture.
 
-- When building locally (e.g., with Docker Compose), the provided `compose.yml` builds natively for your host architecture, so no extra flags are required on macOS or Linux.
+**For local builds on ARM64 (Apple Silicon):** The Dockerfile now supports native ARM64 builds. Simply run:
+```bash
+docker build -t telegram-bot-api .
+```
+
+**Running on Apple Silicon:** If you still see platform warnings, force the platform explicitly:
+```bash
+docker run -d --platform linux/arm64 --env-file .env -p 8081:8081 ragnarok22/telegram-bot-api-docker
+```
 
 ## Environment Variables
 
