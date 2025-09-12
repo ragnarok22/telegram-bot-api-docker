@@ -13,51 +13,76 @@ Dockerized [Telegram Bot API](https://github.com/tdlib/telegram-bot-api) server.
 The [Telegram Bot API](https://github.com/tdlib/telegram-bot-api) provides an HTTP API for creating [Telegram Bots](https://core.telegram.org/bots).
 
 ## Table of Contents
-- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Environment Variables](#environment-variables)
 - [Usage](#usage)
+- [Docker Compose](#docker-compose)
+- [Apple Silicon / ARM64](#apple-silicon-m1m2m3-and-arm64)
+- [Development](#development)
 - [Documentation](#documentation)
-- [Moving a bot to a local server](#switching)
-- [Moving a bot from one local server to another](#moving)
+- [Switching](#switching)
+- [Moving](#moving)
 - [License](#license)
 
-## Installation
+## Quick Start
 
 - Install [Docker](https://docs.docker.com/get-docker/)
-- Pull the image from Docker Hub (multi-arch: amd64/arm64)
+- Pull the image (multi-arch):
   ```bash
   docker pull ragnarok22/telegram-bot-api-docker
   ```
-- Create a .env file with the following content
+- Create a `.env` file:
   ```bash
   TELEGRAM_API_ID=12345
   TELEGRAM_API_HASH=1234567890abcdef1234567890abcdef
+  # Optional overrides
+  # TELEGRAM_HTTP_PORT=8081
+  # TELEGRAM_HTTP_STAT_PORT=8082
+  # TELEGRAM_DIR=/data
+  # TELEGRAM_TEMP_DIR=/tmp
+  # TELEGRAM_LOG_FILE=/data/logs/telegram-bot-api.log
+  # TELEGRAM_LOCAL=true
   ```
-  You can get the `TELEGRAM_API_ID` and `TELEGRAM_API_HASH` from [Telegram's website](https://my.telegram.org)
-- Run the container
+  Get `TELEGRAM_API_ID` and `TELEGRAM_API_HASH` from https://my.telegram.org
+- Run the container (API on 8081, stats on 8082):
   ```bash
-  docker run -d --env-file .env -p 8081:8081 ragnarok22/telegram-bot-api-docker
-  ```
-- (Optional) Mount volumes to persist data and logs between runs
-  ```bash
-  docker run -d --env-file .env -p 8081:8081 \
-    -v $(pwd)/data:/data \
-    -v $(pwd)/logs:/data/logs \
+  docker run -d --name telegram-bot-api \
+    --env-file .env \
+    -p 8081:8081 -p 8082:8082 \
+    -v "$(pwd)/data:/data" \
+    -v "$(pwd)/logs:/data/logs" \
     ragnarok22/telegram-bot-api-docker
   ```
-- The server will be available at `http://localhost:8081`
+- Verify the API (replace <token>):
+  ```bash
+  curl http://localhost:8081/bot<TOKEN>/getMe
+  ```
+  Logs are written to `/data/logs/telegram-bot-api.log` inside the container.
 
-Also, you can use Docker Compose to run the container
+## Docker Compose
+
+Minimal compose service:
 ```yaml
 services:
   telegram-bot-api:
     image: ragnarok22/telegram-bot-api-docker
+    env_file: .env
     ports:
       - "8081:8081"
-    env_file:
-      - .env
+      - "8082:8082" # optional: statistics
+    volumes:
+      - ./data:/data
+      - ./logs:/data/logs
 ```
 
-### Apple Silicon (M1/M2/M3) and ARM64
+Bring it up:
+```bash
+docker compose up -d
+```
+
+The compose configuration persists bot data in `./data` and logs in `./logs`.
+
+## Apple Silicon (M1/M2/M3) and ARM64
 
 The image supports multi-platform builds for both `linux/amd64` and `linux/arm64`. 
 
@@ -70,51 +95,60 @@ docker build -t telegram-bot-api .
 
 **Running on Apple Silicon:** If you still see platform warnings, force the platform explicitly:
 ```bash
-docker run -d --platform linux/arm64 --env-file .env -p 8081:8081 ragnarok22/telegram-bot-api-docker
+docker run -d --platform linux/arm64/v8 --env-file .env -p 8081:8081 ragnarok22/telegram-bot-api-docker
 ```
 
 ### Building from Source
 
 To build the image locally:
 ```bash
-docker build -t telegram-bot-api .
+docker build -t telegram-bot-api:dev .
 ```
 
 The Dockerfile automatically creates the necessary log directories and handles platform-specific builds.
 
 ## Environment Variables
 
-- `TELEGRAM_API_ID`: The API ID obtained from [Telegram's website](https://my.telegram.org)
-- `TELEGRAM_API_HASH`: The API hash obtained from [Telegram's website](https://my.telegram.org)
-- `TELEGRAM_HTTP_PORT`: The port the server will listen to. Default is `8081`
-- `TELEGRAM_HTTP_STAT_PORT`: The port the server will listen to for statistics. Default is `8082`
-- `TELEGRAM_DIR`: The directory where the server will store the data. Default is `/data`
-- `TELEGRAM_TEMP_DIR`: The directory where the server will store temporary files. Default is `/tmp`
-- `TELEGRAM_LOG_FILE`: The file where the server will store the logs. Default is `/data/logs/telegram-bot-api.log`
-- `TELEGRAM_LOCAL`: Set to `1` or `true` (case-insensitive) to run the server in local mode. Default is `false`
+- `TELEGRAM_API_ID` (required): API ID from https://my.telegram.org
+- `TELEGRAM_API_HASH` (required): API hash from https://my.telegram.org
+- `TELEGRAM_HTTP_PORT` (optional): HTTP API port. Default `8081`.
+- `TELEGRAM_HTTP_STAT_PORT` (optional): Statistics port. Default `8082`.
+- `TELEGRAM_DIR` (optional): Data directory. Default `/data`.
+- `TELEGRAM_TEMP_DIR` (optional): Temp directory. Default `/tmp`.
+- `TELEGRAM_LOG_FILE` (optional): Log file path. Default `/data/logs/telegram-bot-api.log`.
+- `TELEGRAM_LOCAL` (optional): `1` or `true` to enable `--local` mode, allowing the server to serve local files. Default `false`.
 
 ## Usage
-Run the container by providing the required environment variables. If you created
-a `.env` file in the installation step, it can be passed directly to Docker:
 
-```bash
-docker run -d --env-file .env -p 8081:8081 ragnarok22/telegram-bot-api-docker
-```
+- Run with `.env` and expose API and stats:
+  ```bash
+  docker run -d --env-file .env -p 8081:8081 -p 8082:8082 ragnarok22/telegram-bot-api-docker
+  ```
+- Pass additional flags by setting env vars above. To bypass the entrypoint and run a custom command (e.g., get version), use:
+  ```bash
+  docker run --rm ragnarok22/telegram-bot-api-docker ./telegram-bot-api --version
+  ```
+- Replace `<TOKEN>` and test:
+  ```bash
+  curl http://localhost:8081/bot<TOKEN>/getMe
+  ```
 
-After starting the container the API is available on the port configured via `TELEGRAM_HTTP_PORT`. You can verify your setup with:
+Notes
+- `/data` stores bot data; mount it to persist sessions across restarts.
+- Logs go to `/data/logs/telegram-bot-api.log`.
+- Statistics are exposed on `TELEGRAM_HTTP_STAT_PORT` (default 8082).
 
-```bash
-curl http://localhost:8081/bot<token>/getMe
-```
+Troubleshooting
+- If using host volumes, ensure the container user can write: create the folders before starting or adjust ownership/permissions on `./data` and `./logs` on the host.
+- If ports are in use, change `TELEGRAM_HTTP_PORT`/`TELEGRAM_HTTP_STAT_PORT` and publish the new ports.
+- If API calls fail, verify `TELEGRAM_API_ID`/`TELEGRAM_API_HASH` and check the log file.
 
-You may also launch the service using Docker Compose:
+## Development
 
-```bash
-docker compose up -d
-```
-
-The compose configuration keeps bot data in the `./data` directory.
-Temporary files are stored in the `./temp` directory.
+- Build image (local): `docker build -t telegram-bot-api:dev .`
+- Run locally: `docker run -d --env-file .env -p 8081:8081 telegram-bot-api:dev`
+- Compose: `docker compose up -d`
+- Entry script tests: `bash tests/run.sh`
 
 ## Documentation
 
