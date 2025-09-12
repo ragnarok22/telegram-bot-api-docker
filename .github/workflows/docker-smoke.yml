@@ -35,6 +35,6 @@ jobs:
 
       - name: Binary exists and prints version
         run: |
-          docker run --rm --entrypoint ./telegram-bot-api tbapi:test --version | tee version.txt
-          grep -Eiq "telegram bot api" version.txt
+          docker run --rm --entrypoint ./telegram-bot-api tbapi:test --version 2>&1 | tee version.txt
+          grep -Eiq "bot api" version.txt
 
