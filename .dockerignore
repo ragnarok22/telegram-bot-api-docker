@@ -1,14 +1,17 @@
-# Ignore Git and GitHub files
-.git
-.github
+# Keep the Docker build context minimal.
+# Only the Dockerfile and entrypoint are needed for the image.
 
-# Development and temporary files
-.DS_Store
-.env
-data
-tmp
-temp
+# Ignore everything by default
+**
 
-# Docker compose file not needed in image
-compose.yml
+# Allowlist required files
+!Dockerfile
+!entrypoint.sh
+!.dockerignore
 
+# Optional: unignore docs if you plan to COPY them
+#!README.md
+#!LICENSE
+
+# Note: compose files, tests, VCS metadata, env files, temp/data dirs, etc.
+# remain excluded by the blanket ignore above.
