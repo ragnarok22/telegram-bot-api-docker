@@ -1,16 +1,17 @@
 #!/bin/sh
-set -e
+set -eu
 
-if [ -n "${1}" ]; then
+# If any positional args are provided, exec them directly (passthrough)
+if [ "$#" -gt 0 ]; then
   exec "$@"
 fi
 
-if [ -z "$TELEGRAM_API_ID" ]; then
+if [ -z "${TELEGRAM_API_ID:-}" ]; then
   echo "Error: TELEGRAM_API_ID is not set" >&2
   exit 1
 fi
 
-if [ -z "$TELEGRAM_API_HASH" ]; then
+if [ -z "${TELEGRAM_API_HASH:-}" ]; then
   echo "Error: TELEGRAM_API_HASH is not set" >&2
   exit 1
 fi
@@ -18,36 +19,36 @@ fi
 ARGS=""
 
 # HTTP listening port (default is 8081)
-if [ -n "$TELEGRAM_HTTP_PORT" ]; then
-  ARGS=" --http-port $TELEGRAM_HTTP_PORT"
+if [ -n "${TELEGRAM_HTTP_PORT:-}" ]; then
+  ARGS=" --http-port ${TELEGRAM_HTTP_PORT}"
 else
   ARGS=" --http-port 8081"
 fi
 
 # HTTP statistics port (default is 8082)
-if [ -n "$TELEGRAM_HTTP_STAT_PORT" ]; then
-  ARGS="$ARGS --http-stat-port $TELEGRAM_HTTP_STAT_PORT"
+if [ -n "${TELEGRAM_HTTP_STAT_PORT:-}" ]; then
+  ARGS="$ARGS --http-stat-port ${TELEGRAM_HTTP_STAT_PORT}"
 else
   ARGS="$ARGS --http-stat-port 8082"
 fi
 
 # server working directory
-if [ -n "$TELEGRAM_DIR" ]; then
-  ARGS="$ARGS --dir $TELEGRAM_DIR"
+if [ -n "${TELEGRAM_DIR:-}" ]; then
+  ARGS="$ARGS --dir ${TELEGRAM_DIR}"
 else
   ARGS="$ARGS --dir /data"
 fi
 
 # directory for storing HTTP server temporary files
-if [ -n "$TELEGRAM_TEMP_DIR" ]; then
-  ARGS="$ARGS --temp-dir $TELEGRAM_TEMP_DIR"
+if [ -n "${TELEGRAM_TEMP_DIR:-}" ]; then
+  ARGS="$ARGS --temp-dir ${TELEGRAM_TEMP_DIR}"
 else
   ARGS="$ARGS --temp-dir /tmp"
 fi
 
 # path to the file where the log will be written
-if [ -n "$TELEGRAM_LOG_FILE" ]; then
-  ARGS="$ARGS --log $TELEGRAM_LOG_FILE"
+if [ -n "${TELEGRAM_LOG_FILE:-}" ]; then
+  ARGS="$ARGS --log ${TELEGRAM_LOG_FILE}"
 else
   ARGS="$ARGS --log /data/logs/telegram-bot-api.log"
 fi
@@ -57,8 +58,13 @@ if [ "${TELEGRAM_LOCAL:-}" = "1" ] || [ "$(printf '%s' "${TELEGRAM_LOCAL:-}" | t
   ARGS="$ARGS --local"
 fi
 
+# Extra passthrough args, e.g. "--max-webhook-connections 80"
+if [ -n "${TELEGRAM_EXTRA_ARGS:-}" ]; then
+  ARGS="$ARGS ${TELEGRAM_EXTRA_ARGS}"
+fi
+
 VERSION=$(./telegram-bot-api --version 2>&1)
 
 echo "Starting telegram-bot-api ($VERSION) with args: $ARGS"
 
-./telegram-bot-api $ARGS
+exec ./telegram-bot-api $ARGS

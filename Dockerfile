@@ -7,10 +7,14 @@ LABEL org.opencontainers.image.url="https://github.com/ragnarok22/telegram-bot-a
 LABEL org.opencontainers.image.source="https://github.com/ragnarok22/telegram-bot-api-docker"
 LABEL org.opencontainers.image.version="9.2"
 LABEL org.opencontainers.image.authors="Reinier Hernández<sasuke.reinier@gmail.com>"
+LABEL org.opencontainers.image.licenses="BSL-1.0"
 
 RUN apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
 
-RUN git clone --recursive https://github.com/tdlib/telegram-bot-api.git /telegram-bot-api
+# Shallow clone default branch with submodules
+RUN git clone --depth 1 \
+      --recurse-submodules --shallow-submodules \
+      https://github.com/tdlib/telegram-bot-api.git /telegram-bot-api
 
 WORKDIR /telegram-bot-api
 

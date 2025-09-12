@@ -117,6 +117,7 @@ The Dockerfile automatically creates the necessary log directories and handles p
 - `TELEGRAM_TEMP_DIR` (optional): Temp directory. Default `/tmp`.
 - `TELEGRAM_LOG_FILE` (optional): Log file path. Default `/data/logs/telegram-bot-api.log`.
 - `TELEGRAM_LOCAL` (optional): `1` or `true` to enable `--local` mode, allowing the server to serve local files. Default `false`.
+- `TELEGRAM_EXTRA_ARGS` (optional): Additional flags passed verbatim to `telegram-bot-api` (e.g., `--max-webhook-connections 80`).
 
 ## Usage
 
@@ -124,7 +125,8 @@ The Dockerfile automatically creates the necessary log directories and handles p
   ```bash
   docker run -d --env-file .env -p 8081:8081 -p 8082:8082 ragnarok22/telegram-bot-api-docker
   ```
-- Pass additional flags by setting env vars above. To bypass the entrypoint and run a custom command (e.g., get version), use:
+- Pass additional flags by setting env vars above. For options not covered by env vars, use `TELEGRAM_EXTRA_ARGS`.
+- To bypass the entrypoint and run a custom command (e.g., get version), use:
   ```bash
   docker run --rm ragnarok22/telegram-bot-api-docker ./telegram-bot-api --version
   ```
@@ -137,6 +139,9 @@ Notes
 - `/data` stores bot data; mount it to persist sessions across restarts.
 - Logs go to `/data/logs/telegram-bot-api.log`.
 - Statistics are exposed on `TELEGRAM_HTTP_STAT_PORT` (default 8082).
+
+Security note
+- Enabling `TELEGRAM_LOCAL` allows serving local files; use only in trusted environments and ensure proper network isolation.
 
 Troubleshooting
 - If using host volumes, ensure the container user can write: create the folders before starting or adjust ownership/permissions on `./data` and `./logs` on the host.

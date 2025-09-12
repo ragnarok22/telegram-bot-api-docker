@@ -94,6 +94,17 @@ test_custom_args_and_local() {
   echo "$output" | grep -F -q -- " --local"
 }
 
+test_extra_args_passthrough() {
+  local dir
+  dir=$(setup_sandbox)
+  output=$(cd "$dir" \
+    && TELEGRAM_API_ID=1 TELEGRAM_API_HASH=abc \
+       TELEGRAM_EXTRA_ARGS="--max-webhook-connections 50 --log-verbosity-level 3" \
+       ./entrypoint.sh 2>&1)
+  echo "$output" | grep -F -q -- "--max-webhook-connections 50"
+  echo "$output" | grep -F -q -- "--log-verbosity-level 3"
+}
+
 test_exec_passthrough_when_args_present() {
   local dir
   dir=$(setup_sandbox)
@@ -106,6 +117,7 @@ run_test "missing API ID" test_missing_api_id
 run_test "missing API HASH" test_missing_api_hash
 run_test "builds default args" test_builds_expected_args_defaults
 run_test "custom args and --local" test_custom_args_and_local
+run_test "extra args passthrough" test_extra_args_passthrough
 run_test "exec passthrough" test_exec_passthrough_when_args_present
 
 if [ "$failures" -ne 0 ]; then

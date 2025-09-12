@@ -3,3 +3,7 @@
 
 data/
 tmp/
+temp/
+logs/
+.vscode/
+.idea/
