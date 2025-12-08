@@ -1,5 +1,5 @@
 # Stage 1: Build Stage
-FROM --platform=$BUILDPLATFORM alpine:3.22.2 AS build-stage
+FROM --platform=$BUILDPLATFORM alpine:3.23.0 AS build-stage
 
 LABEL org.opencontainers.image.description="Telegram Bot API server provides an HTTP API for creating Telegram Bots."
 LABEL org.opencontainers.image.title="telegram-bot-api"
@@ -26,7 +26,7 @@ RUN rm -rf build && \
 
 
 # Stage 2: Final Stage
-FROM alpine:3.22.2
+FROM alpine:3.23.0
 
 # Copy only the necessary files from the build stage
 COPY --from=build-stage /telegram-bot-api/bin/ /telegram-bot-api/bin/
