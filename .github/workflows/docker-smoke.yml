@@ -2,9 +2,6 @@ name: docker-smoke
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "v*.*"
 
 jobs:
   build-and-smoke:
