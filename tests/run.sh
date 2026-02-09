@@ -3,7 +3,7 @@ set -euo pipefail
 
 failures=0
 cleanup_dirs=()
-trap 'rm -rf "${cleanup_dirs[@]}"' EXIT
+trap 'rm -rf "${cleanup_dirs[@]+"${cleanup_dirs[@]}"}"' EXIT
 
 run_test() {
   local name=$1
