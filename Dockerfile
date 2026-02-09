@@ -32,7 +32,6 @@ LABEL org.opencontainers.image.licenses="BSL-1.0"
 COPY --from=build-stage /telegram-bot-api/bin/ /telegram-bot-api/bin/
 
 RUN apk add --no-cache libstdc++ libgcc && \
-    rm -rf /var/cache/apk/* && \
     addgroup -S botapi && adduser -S -G botapi botapi && \
     chown -R botapi:botapi /telegram-bot-api/bin && \
     mkdir -p /data/logs /tmp && \
