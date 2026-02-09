@@ -46,6 +46,11 @@ COPY --chmod=755 entrypoint.sh /telegram-bot-api/bin/entrypoint.sh
 VOLUME /data/logs
 VOLUME /tmp
 
+EXPOSE 8081 8082
+
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+  CMD wget -qO- http://localhost:8081/ || exit 1
+
 USER botapi
 
 ENTRYPOINT ["./entrypoint.sh"]
