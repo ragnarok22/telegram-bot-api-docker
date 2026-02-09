@@ -31,7 +31,7 @@ setup_sandbox() {
   cat > "$dir/telegram-bot-api" <<'EOF'
 #!/usr/bin/env sh
 if [ "$1" = "--version" ]; then
-  echo "Telegram Bot API Server mock 9.3"
+  echo "Telegram Bot API Server mock 9.4"
   exit 0
 fi
 echo "MOCK telegram-bot-api invoked with args: $@"
@@ -73,7 +73,7 @@ test_builds_expected_args_defaults() {
   dir=$(setup_sandbox)
   # Provide required envs; expect default ports and dirs
   output=$(cd "$dir" && TELEGRAM_API_ID=1 TELEGRAM_API_HASH=abc ./entrypoint.sh 2>&1)
-  echo "$output" | grep -F -q "Starting telegram-bot-api (Telegram Bot API Server mock 9.3) with args:  --http-port 8081 --http-stat-port 8082 --dir /data --temp-dir /tmp --log /data/logs/telegram-bot-api.log"
+  echo "$output" | grep -F -q "Starting telegram-bot-api (Telegram Bot API Server mock 9.4) with args:  --http-port 8081 --http-stat-port 8082 --dir /data --temp-dir /tmp --log /data/logs/telegram-bot-api.log"
   echo "$output" | grep -F -q "MOCK telegram-bot-api invoked with args: --http-port 8081 --http-stat-port 8082 --dir /data --temp-dir /tmp --log /data/logs/telegram-bot-api.log"
 }
 
