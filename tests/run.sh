@@ -130,6 +130,7 @@ run_test "missing API ID" test_missing_api_id
 run_test "missing API HASH" test_missing_api_hash
 run_test "builds default args" test_builds_expected_args_defaults
 run_test "custom args and --local" test_custom_args_and_local
+run_test "--local with TELEGRAM_LOCAL=1" test_local_with_numeric_flag
 run_test "extra args passthrough" test_extra_args_passthrough
 run_test "exec passthrough" test_exec_passthrough_when_args_present
 
