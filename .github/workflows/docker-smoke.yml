@@ -14,8 +14,14 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image (native arch)
-        run: |
-          docker build -t tbapi:test .
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          load: true
+          tags: tbapi:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: EntryPoint env validation should fail without env
         run: |
@@ -34,4 +40,3 @@ jobs:
         run: |
           docker run --rm --entrypoint ./telegram-bot-api tbapi:test --version 2>&1 | tee version.txt
           grep -Eiq "bot api" version.txt
-
