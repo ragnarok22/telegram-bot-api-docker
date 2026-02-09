@@ -1,14 +1,6 @@
 # Stage 1: Build Stage
 FROM --platform=$BUILDPLATFORM alpine:3.23.3 AS build-stage
 
-LABEL org.opencontainers.image.description="Telegram Bot API server provides an HTTP API for creating Telegram Bots."
-LABEL org.opencontainers.image.title="telegram-bot-api"
-LABEL org.opencontainers.image.url="https://github.com/ragnarok22/telegram-bot-api-docker"
-LABEL org.opencontainers.image.source="https://github.com/ragnarok22/telegram-bot-api-docker"
-LABEL org.opencontainers.image.version="9.4"
-LABEL org.opencontainers.image.authors="Reinier Hernández<sasuke.reinier@gmail.com>"
-LABEL org.opencontainers.image.licenses="BSL-1.0"
-
 RUN apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
 
 # Shallow clone default branch with submodules
@@ -27,6 +19,14 @@ RUN rm -rf build && \
 
 # Stage 2: Final Stage
 FROM alpine:3.23.3
+
+LABEL org.opencontainers.image.description="Telegram Bot API server provides an HTTP API for creating Telegram Bots."
+LABEL org.opencontainers.image.title="telegram-bot-api"
+LABEL org.opencontainers.image.url="https://github.com/ragnarok22/telegram-bot-api-docker"
+LABEL org.opencontainers.image.source="https://github.com/ragnarok22/telegram-bot-api-docker"
+LABEL org.opencontainers.image.version="9.4"
+LABEL org.opencontainers.image.authors="Reinier Hernández<sasuke.reinier@gmail.com>"
+LABEL org.opencontainers.image.licenses="BSL-1.0"
 
 # Copy only the necessary files from the build stage
 COPY --from=build-stage /telegram-bot-api/bin/ /telegram-bot-api/bin/
