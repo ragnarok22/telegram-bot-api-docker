@@ -17,7 +17,7 @@ jobs:
     needs: smoke-test
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set up QEMU (for multi-arch)
         uses: docker/setup-qemu-action@v3
