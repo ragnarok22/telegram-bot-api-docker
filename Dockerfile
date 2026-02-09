@@ -44,7 +44,6 @@ WORKDIR /telegram-bot-api/bin
 COPY --chmod=755 entrypoint.sh /telegram-bot-api/bin/entrypoint.sh
 
 VOLUME /data/logs
-VOLUME /tmp
 
 EXPOSE 8081 8082
 
