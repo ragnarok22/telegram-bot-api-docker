@@ -2,6 +2,8 @@
 set -euo pipefail
 
 failures=0
+cleanup_dirs=()
+trap 'rm -rf "${cleanup_dirs[@]}"' EXIT
 
 run_test() {
   local name=$1
@@ -23,6 +25,7 @@ mktemp_dir() {
 setup_sandbox() {
   local dir
   dir=$(mktemp_dir)
+  cleanup_dirs+=("$dir")
   mkdir -p "$dir"
   cp "$(pwd)/entrypoint.sh" "$dir/entrypoint.sh"
   chmod +x "$dir/entrypoint.sh"
@@ -91,6 +94,16 @@ test_custom_args_and_local() {
   echo "$output" | grep -F -q -- "--dir /xdata"
   echo "$output" | grep -F -q -- "--temp-dir /xtmp"
   echo "$output" | grep -F -q -- "--log /xlogs/app.log"
+  echo "$output" | grep -F -q -- " --local"
+}
+
+test_local_with_numeric_flag() {
+  local dir
+  dir=$(setup_sandbox)
+  output=$(cd "$dir" \
+    && TELEGRAM_API_ID=1 TELEGRAM_API_HASH=abc \
+       TELEGRAM_LOCAL=1 \
+       ./entrypoint.sh 2>&1)
   echo "$output" | grep -F -q -- " --local"
 }
 
