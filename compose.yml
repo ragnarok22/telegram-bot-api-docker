@@ -10,3 +10,13 @@ services:
     env_file: .env
     volumes:
       - ./data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8081/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
