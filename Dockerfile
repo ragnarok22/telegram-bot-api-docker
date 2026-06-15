@@ -1,5 +1,5 @@
 # Stage 1: Build Stage
-FROM --platform=$BUILDPLATFORM alpine:3.23.4 AS build-stage
+FROM --platform=$BUILDPLATFORM alpine:3.24.0 AS build-stage
 
 RUN apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
 
@@ -18,7 +18,7 @@ RUN rm -rf build && \
 
 
 # Stage 2: Final Stage
-FROM alpine:3.23.4
+FROM alpine:3.24.0
 
 LABEL org.opencontainers.image.description="Telegram Bot API server provides an HTTP API for creating Telegram Bots."
 LABEL org.opencontainers.image.title="telegram-bot-api"
