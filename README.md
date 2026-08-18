@@ -167,8 +167,8 @@ GitHub Actions workflows:
 - `docker-release`: runs on pushed tags matching `v*.*`, then builds and pushes multi-arch images.
 
 Release examples that match the current workflow trigger:
-- `v10.1`
-- `v10.1.0`
+- `v10.2`
+- `v10.2.0`
 
 Publishing requires repository secrets:
 - `DOCKERHUB_USERNAME`
