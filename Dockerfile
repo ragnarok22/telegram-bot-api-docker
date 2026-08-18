@@ -1,12 +1,17 @@
 # Stage 1: Build Stage
-FROM --platform=$BUILDPLATFORM alpine:3.24.1 AS build-stage
+FROM alpine:3.24.1 AS build-stage
+
+ARG TELEGRAM_BOT_API_COMMIT=adfd7f6a8e990272851777eeb3ae0def4216f161
 
 RUN apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
 
-# Shallow clone default branch with submodules
-RUN git clone --depth 1 \
-      --recurse-submodules --shallow-submodules \
-      https://github.com/tdlib/telegram-bot-api.git /telegram-bot-api
+# Fetch the pinned upstream revision and its submodules.
+RUN git init /telegram-bot-api && \
+    cd /telegram-bot-api && \
+    git remote add origin https://github.com/tdlib/telegram-bot-api.git && \
+    git fetch --depth 1 origin "$TELEGRAM_BOT_API_COMMIT" && \
+    git checkout --detach FETCH_HEAD && \
+    git submodule update --init --recursive --depth 1
 
 WORKDIR /telegram-bot-api
 

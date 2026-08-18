@@ -159,6 +159,8 @@ docker run --rm --platform linux/arm64/v8 ragnarok22/telegram-bot-api-docker ./t
 - Run entrypoint tests: `bash tests/run.sh`
 - Run compose stack from source: `docker compose up -d --build`
 
+The Dockerfile pins the upstream Telegram Bot API commit for reproducible builds. To test another revision, pass `--build-arg TELEGRAM_BOT_API_COMMIT=<commit>` to `docker build`.
+
 ## CI/CD and Release
 
 GitHub Actions workflows:
