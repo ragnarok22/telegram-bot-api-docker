@@ -1,7 +1,7 @@
 # Stage 1: Build Stage
 FROM alpine:3.24.1 AS build-stage
 
-ARG TELEGRAM_BOT_API_COMMIT=adfd7f6a8e990272851777eeb3ae0def4216f161
+ARG TELEGRAM_BOT_API_COMMIT=2efabc722e9493b9cac450233198d09e5cea0573
 
 RUN apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
 
@@ -29,7 +29,7 @@ LABEL org.opencontainers.image.description="Telegram Bot API server provides an 
 LABEL org.opencontainers.image.title="telegram-bot-api"
 LABEL org.opencontainers.image.url="https://github.com/ragnarok22/telegram-bot-api-docker"
 LABEL org.opencontainers.image.source="https://github.com/ragnarok22/telegram-bot-api-docker"
-LABEL org.opencontainers.image.version="10.2.0"
+LABEL org.opencontainers.image.version="10.3.0"
 LABEL org.opencontainers.image.authors="Reinier Hernández<sasuke.reinier@gmail.com>"
 LABEL org.opencontainers.image.licenses="BSL-1.0"
 
