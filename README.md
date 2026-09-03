@@ -166,7 +166,7 @@ The Dockerfile pins the upstream Telegram Bot API commit for reproducible builds
 GitHub Actions workflows:
 - `test`: runs `bash tests/run.sh` on push/PR to `main`.
 - `docker-smoke`: reusable/manual workflow for Docker build and smoke checks.
-- `docker-release`: runs on pushed tags matching `v*.*`, then builds and pushes multi-arch images.
+- `docker-release`: builds AMD64 and ARM64 once on native runners, smoke-tests the AMD64 digest, then publishes the multi-arch manifest.
 
 Release examples that match the current workflow trigger:
 - `v10.3`

@@ -126,14 +126,27 @@ test_exec_passthrough_when_args_present() {
   echo "$output" | grep -q "hello"
 }
 
-test_release_uses_native_multi_arch_builders() {
-  grep -F -q "uses: docker/github-builder/.github/workflows/build.yml@v1" .github/workflows/docker-release.yml
-  grep -F -q "platforms: linux/amd64,linux/arm64" .github/workflows/docker-release.yml
-  ! grep -F -q "docker/setup-qemu-action" .github/workflows/docker-release.yml
+test_release_builds_each_architecture_once() {
+  local workflow=.github/workflows/docker-release.yml
+
+  grep -F -q "platform: linux/amd64" "$workflow" || return 1
+  grep -F -q "platform: linux/arm64" "$workflow" || return 1
+  grep -F -q "runner: ubuntu-24.04-arm" "$workflow" || return 1
+  [ "$(grep -F -c "uses: docker/build-push-action@v7" "$workflow")" -eq 1 ] || return 1
+  grep -F -q "push-by-digest=true" "$workflow" || return 1
+  grep -F -q "Validate digest" "$workflow" || return 1
+  grep -F -q "Smoke test published digest" "$workflow" || return 1
+  grep -F -q "docker buildx imagetools create" "$workflow" || return 1
+  grep -F -q "Verify manifest" "$workflow" || return 1
+  grep -F -q "dockerhub-description:" "$workflow" || return 1
+  grep -F -q "needs: merge" "$workflow" || return 1
+  grep -F -q "concurrency:" "$workflow" || return 1
+  ! grep -F -q "smoke-test:" "$workflow" || return 1
+  ! grep -F -q "docker/setup-qemu-action" "$workflow" || return 1
 }
 
 test_build_uses_parallel_compilation() {
-  grep -F -q 'cmake --build . --target install --parallel "$(nproc)"' Dockerfile
+  grep -F -q "cmake --build . --target install --parallel \"\$(nproc)\"" Dockerfile
 }
 
 run_test "missing API ID" test_missing_api_id
@@ -143,7 +156,7 @@ run_test "custom args and --local" test_custom_args_and_local
 run_test "--local with TELEGRAM_LOCAL=1" test_local_with_numeric_flag
 run_test "extra args passthrough" test_extra_args_passthrough
 run_test "exec passthrough" test_exec_passthrough_when_args_present
-run_test "release uses native multi-arch builders" test_release_uses_native_multi_arch_builders
+run_test "release builds each architecture once" test_release_builds_each_architecture_once
 run_test "build uses parallel compilation" test_build_uses_parallel_compilation
 
 if [ "$failures" -ne 0 ]; then

@@ -36,7 +36,7 @@ The Dockerfile uses two stages:
 ## CI/CD Workflows
 - `test`: runs on push/PR to `main`, executes `bash tests/run.sh`.
 - `docker-smoke`: builds/tests container behavior.
-- `docker-release`: runs smoke, then publishes multi-arch image to Docker Hub on matching version tags.
+- `docker-release`: builds on native architecture runners, smoke-tests the AMD64 digest, then publishes the multi-arch manifest to Docker Hub.
 
 ## Coding Style & Naming Conventions
 - Shell: POSIX `sh` only (avoid bashisms). Prefer `set -e` and clear error messages.
