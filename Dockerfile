@@ -20,7 +20,7 @@ RUN rm -rf build && \
     mkdir build && \
     cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=.. .. && \
-    cmake --build . --target install
+    cmake --build . --target install --parallel "$(nproc)"
 
 
 # Stage 2: Final Stage

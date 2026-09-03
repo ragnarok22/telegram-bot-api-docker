@@ -21,8 +21,10 @@ jobs:
           file: ./Dockerfile
           load: true
           tags: tbapi:test
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: |
+            type=gha,scope=buildkit-linux-amd64
+            type=gha
+          cache-to: type=gha,scope=buildkit-linux-amd64,mode=max
 
       - name: EntryPoint env validation should fail without env
         run: |
