@@ -3,7 +3,8 @@ FROM alpine:3.24.1 AS build-stage
 
 ARG TELEGRAM_BOT_API_COMMIT=2efabc722e9493b9cac450233198d09e5cea0573
 
-RUN apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
+RUN apk upgrade --no-cache && \
+    apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
 
 # Fetch the pinned upstream revision and its submodules.
 RUN git init /telegram-bot-api && \
@@ -36,7 +37,8 @@ LABEL org.opencontainers.image.licenses="BSL-1.0"
 # Copy only the necessary files from the build stage
 COPY --from=build-stage /telegram-bot-api/bin/ /telegram-bot-api/bin/
 
-RUN apk add --no-cache libstdc++ libgcc && \
+RUN apk upgrade --no-cache && \
+    apk add --no-cache libstdc++ libgcc && \
     addgroup -S botapi && adduser -S -G botapi botapi && \
     chown -R botapi:botapi /telegram-bot-api/bin && \
     mkdir -p /data/logs /tmp && \
