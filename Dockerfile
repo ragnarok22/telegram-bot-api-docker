@@ -1,5 +1,5 @@
 # Stage 1: Build Stage
-FROM alpine:3.24.2 AS build-stage
+FROM alpine:3.24.3 AS build-stage
 
 ARG TELEGRAM_BOT_API_COMMIT=2efabc722e9493b9cac450233198d09e5cea0573
 
@@ -24,7 +24,7 @@ RUN rm -rf build && \
 
 
 # Stage 2: Final Stage
-FROM alpine:3.24.2
+FROM alpine:3.24.3
 
 LABEL org.opencontainers.image.description="Telegram Bot API server provides an HTTP API for creating Telegram Bots."
 LABEL org.opencontainers.image.title="telegram-bot-api"
